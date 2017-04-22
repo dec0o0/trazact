@@ -1,7 +1,7 @@
 defmodule CustomerTest do
 
 	user ExUnit.Case
-	require TestHelper
+	require THelper
 
 	test "increase then decrease" do
 		TestHelper.balance_restart

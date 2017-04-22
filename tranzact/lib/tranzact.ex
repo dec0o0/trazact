@@ -1,9 +1,8 @@
 defmodule Tranzact do
   use Application
   
-  def start(_type, args) do
-    Tranz.Superviz.start_link
+  def start(_type, _) do
+    Tranzact.GlobalSupervizor.start_link
   end
-
   
 end
