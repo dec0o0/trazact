@@ -1,4 +1,4 @@
-defmodule Tranzact.HistoryAgent do
+defmodule Tranzact.HistoryBook do
 	@name :history
 
 	def start_link do
