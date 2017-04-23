@@ -8,7 +8,7 @@ defmodule Tranzact.GlobalSupervizor do
 	def init(:ok) do
 		children = [
 			worker(Tranzact.ClientRegistry, [Tranzact.ClientRegistry]),
-			worker(Tranzact.HistoryBook, [Tranzact.HistoryBook]),
+			worker(Tranzact.HistoryBank, [Tranzact.HistoryBank]),
 			supervisor(Tranzact.Client.Supervizor, [])
 		]
 
