@@ -1,6 +1,6 @@
 defmodule ClientTest do
 
-	use ExUnit.Case, async: true
+	use ExUnit.Case, async: false
 	# require THelper
 
 	# test "increase then decrease" do
@@ -22,9 +22,32 @@ defmodule ClientTest do
 	# 	Balance.stop
 	# end
 
-	test "stores values by key" do
+	test "balance test" do
 		{:ok, client} = Tranzact.Client.start_link
-		assert 1 + 1 == 2
+		assert Tranzact.Client.balance(client) == 0.0
   	end
+
+	test "deposit test" do
+		{:ok, client} = Tranzact.Client.start_link
+		
+		Tranzact.Client.deposit(client, 235.90)
+		assert Tranzact.Client.balance(client) == 235.90
+  	end 
+	  
+	test "stop client" do
+		{:ok, client} = Tranzact.Client.start_link
+		assert :ok == Tranzact.Client.stop(client)
+	end
+
+	test "credit test" do
+	end
+	
+	# test "balance test" do
+	# 	{:ok, client} = Tranzact.Client.start_link
+	# 	assert Tranzact.Client.balance(client) == 0.0
+
+	# 	Tranzact.Client.deposit(client, 235.90)
+	# 	assert Tranzact.Client.balance(client) == 235.90
+  	# end
 
 end

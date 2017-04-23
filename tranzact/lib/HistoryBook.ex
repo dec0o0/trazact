@@ -22,12 +22,12 @@ defmodule Tranzact.HistoryBook do
 				oldList = Map.get(map, key, [])
 				loop(Map.put(map, key, [val | oldList]))
 
-			{:debit, client_pid, key, val} when val > 0 ->
+			{:deposit, client_pid, key, val} when val > 0 ->
 				send(client_pid, :ok)
 				oldList = Map.get(map, key, [])
 				loop(Map.put(map, key, [val * -1 | oldList]))
 
-			{:debit, client_pid, _, _} ->
+			{:credit, client_pid, _, _} ->
 				send(client_pid, :no_hist)
 				loop(map)
 
