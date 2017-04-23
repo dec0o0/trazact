@@ -9,6 +9,7 @@ defmodule GlobalSupervizor do
 		children = [
 			worker(ClientRegistry, [ClientRegistry]),
 			worker(HistoryBook, []),
+			# worker(EventManager, []),
 			supervisor(Client.Supervizor, [])
 		]
 

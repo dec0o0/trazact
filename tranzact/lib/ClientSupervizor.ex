@@ -14,6 +14,7 @@ defmodule Client.Supervizor do
 	def init(:ok) do
 		children = [
 			worker(Client, [], restart: :temporary)
+			
 		]
 
 		supervise(children, strategy: :simple_one_for_one)
