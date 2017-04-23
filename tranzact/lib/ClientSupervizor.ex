@@ -1,7 +1,7 @@
-defmodule Tranzact.Client.Supervizor do
+defmodule Client.Supervizor do
 	use Supervisor
 
-	@name Tranzact.Client.Supervizor
+	@name Client.Supervizor
 
 	def start_link do
 		Supervisor.start_link(__MODULE__, :ok, name: @name)
@@ -13,7 +13,7 @@ defmodule Tranzact.Client.Supervizor do
 
 	def init(:ok) do
 		children = [
-			worker(Tranzact.Client, [], restart: :temporary)
+			worker(Client, [], restart: :temporary)
 		]
 
 		supervise(children, strategy: :simple_one_for_one)

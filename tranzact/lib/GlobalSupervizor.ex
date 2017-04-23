@@ -1,4 +1,4 @@
-defmodule Tranzact.GlobalSupervizor do
+defmodule GlobalSupervizor do
 	use Supervisor
 
 	def start_link do
@@ -7,9 +7,9 @@ defmodule Tranzact.GlobalSupervizor do
 
 	def init(:ok) do
 		children = [
-			worker(Tranzact.ClientRegistry, [Tranzact.ClientRegistry]),
-			worker(Tranzact.HistoryBook, []),
-			supervisor(Tranzact.Client.Supervizor, [])
+			worker(ClientRegistry, [ClientRegistry]),
+			worker(HistoryBook, []),
+			supervisor(Client.Supervizor, [])
 		]
 
 		supervise(children, strategy: :one_for_one)

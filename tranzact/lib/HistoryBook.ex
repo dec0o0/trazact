@@ -1,4 +1,4 @@
-defmodule Tranzact.HistoryBook do
+defmodule HistoryBook do
 	@name :history
 
 	def start_link do
@@ -7,32 +7,28 @@ defmodule Tranzact.HistoryBook do
 		{:ok, pid}
 	end
 
-	def pid, do: Process.whereis(@name)
+	def getpid, do: Process.whereis(@name)
 
 	def stop do
-		Process.exit(pid(), :normal)
+		Process.exit(getpid(), :normal)
 		Process.unregister(@name)
 	end
 
 	defp loop(map) do
 		receive do
 
-			{:credit, client_pid, key, val} when val > 0 -> 
+			{:deposit, client_pid, key, val} when val > 0 ->
 				send(client_pid, :ok)
 				oldList = Map.get(map, key, [])
 				loop(Map.put(map, key, [val | oldList]))
 
-			{:credit, client_pid, _, val} when val == 0 ->
-				send(client_pid, :no_credit)
-				loop(map)
-
-			{:deposit, client_pid, key, val} when val > 0 ->
+			{:credit, client_pid, key, val} when val > 0 -> 
 				send(client_pid, :ok)
 				oldList = Map.get(map, key, [])
 				loop(Map.put(map, key, [val * -1 | oldList]))
 
-			{:credit, client_pid, _, _} ->
-				send(client_pid, :no_hist)
+			{:credit, client_pid, _, val} when val == 0 ->
+				send(client_pid, :no_credit)
 				loop(map)
 				
 			{:hist, client_pid, key} -> 
