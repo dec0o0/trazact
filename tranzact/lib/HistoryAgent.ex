@@ -2,8 +2,9 @@ defmodule Tranzact.HistoryAgent do
 	@name :history
 
 	def start_link do
-		pid = spawn_link fn -> loop(%{}) end
+		pid = Kernel.spawn_link(fn -> loop(%{}) end)
 		Process.register(pid, @name)
+		{:ok, pid}
 	end
 
 	def pid, do: Process.whereis(@name)
@@ -13,7 +14,7 @@ defmodule Tranzact.HistoryAgent do
 		Process.unregister(@name)
 	end
 
-	def loop(map) do
+	defp loop(map) do
 		receive do
 
 			{:credit, client_pid, key, val} when val > 0 -> 
