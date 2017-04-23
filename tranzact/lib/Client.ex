@@ -6,7 +6,7 @@ defmodule Tranzact.Client do
 
 	def deposit(client, value) do
 		sumTask = doOperationForCustomer(client, &(&1 + value))
-		send(Tranzact.HistoryAgent.pid, {:deposit, self(), client, value})
+		send(Tranzact.HistoryBank.pid, {:deposit, self(), client, value})
 		Agent.update(client, fn(_) -> sumTask.await() end)
 		receive do
 			:ok -> IO.puts "Deposit of #{value} is successfull."
@@ -15,7 +15,7 @@ defmodule Tranzact.Client do
 
 	def credit(client, value) do
 		substractTask = doOperationForCustomer(client, &(&1 - value))
-		send(Tranzact.HistoryAgent.pid, {:credit, self(), client, value})
+		send(Tranzact.HistoryBank.pid, {:credit, self(), client, value})
 		Agent.update(client, fn(_) -> substractTask.await() end)
 		receive do
 			:ok -> IO.puts "Credit the account with #{value} has completed."
@@ -30,14 +30,14 @@ defmodule Tranzact.Client do
 	end
 
 	def get_hist(client) do
-		send(Tranzact.HistoryAgent.pid, {:hist, self(), client})
+		send(Tranzact.HistoryBank.pid, {:hist, self(), client})
 		receive do
 			{:ok, hist} -> hist
 		end
 	end
 
 	def break(client) do
-		send(Tranzact.HistoryAgent.pid, {:translate, self(), client})
+		send(Tranzact.HistoryBank.pid, {:translate, self(), client})
 	end
 
 	def stop(client) do

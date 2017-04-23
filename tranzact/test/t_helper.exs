@@ -1,12 +1,12 @@
 ExUnit.start()
 
 defmodule THelper do
-	require Tranzact.HistoryAgent
+	require Tranzact.HistoryBank
 
 	def balance_restart do
-		if Tranzact.HistoryAgent.pid do
-			Tranzact.HistoryAgent.stop
+		if Tranzact.HistoryBank.pid do
+			Tranzact.HistoryBank.stop
 		end
-		Tranzact.HistoryAgent.start
+		Tranzact.HistoryBank.start
 	end
 end
