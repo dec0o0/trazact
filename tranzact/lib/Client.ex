@@ -15,13 +15,19 @@ defmodule Tranzact.Client do
 
 	def credit(client, value) do
 		# substractTask = doOperationForCustomer(client, &(&1 - value))
-		send(Tranzact.HistoryBook.pid, {:credit, self(), client, value})
-		Agent.update(client, fn current -> current - value end)
+		oldValue = getCurrentVal(client)
+		cond do
+			oldValue >= value -> send(Tranzact.HistoryBook.pid, {:credit, self(), client, value})
+			true -> send(Tranzact.HistoryBook.pid, {:credit, self(), client, 0})	
+		end
+		
+		Agent.update(client, fn current when current >= 0 -> current - value end)
 		receive do
 			:ok -> IO.puts "Credit the account with #{value} has completed."
 			:no_hist -> 
 				IO.puts "New account, no."
 				:failed
+			:no_credit -> "No credit for the #{value}."
 		end
 	end
 

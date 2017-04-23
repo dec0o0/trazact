@@ -32,6 +32,9 @@ defmodule ClientTest do
 		
 		Tranzact.Client.deposit(client, 235.90)
 		assert Tranzact.Client.balance(client) == 235.90
+
+		Tranzact.Client.deposit(client, 235.90)
+		assert Tranzact.Client.balance(client) == 235.90 * 2
   	end 
 	  
 	test "stop client" do
@@ -40,6 +43,12 @@ defmodule ClientTest do
 	end
 
 	test "credit test" do
+		{:ok, client} = Tranzact.Client.start_link
+		
+		Tranzact.Client.deposit(client, 235.90)
+
+		Tranzact.Client.credit(client, 235.90)
+		assert Tranzact.Client.balance(client) == 0.0
 	end
 	
 	# test "balance test" do
