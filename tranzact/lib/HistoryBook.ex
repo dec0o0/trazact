@@ -18,6 +18,10 @@ defmodule HistoryBook do
 		receive do
 
 			{:deposit, client_pid, key, val} when val > 0 ->
+				limit = 1000
+				if val > limit do	
+					EventManager.notify({:write, "Depositul a depasit valoarea #{limit}"})
+				end
 				send(client_pid, :ok)
 				oldList = Map.get(map, key, [])
 				loop(Map.put(map, key, [val | oldList]))
@@ -28,6 +32,7 @@ defmodule HistoryBook do
 				loop(Map.put(map, key, [val * -1 | oldList]))
 
 			{:credit, client_pid, _, val} when val == 0 ->
+				EventManager.notify({:write, "Credit insuficient"})
 				send(client_pid, :no_credit)
 				loop(map)
 				

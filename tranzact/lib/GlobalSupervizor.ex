@@ -11,6 +11,7 @@ defmodule GlobalSupervizor do
 		children = [
 			worker(ClientRegistry, [:registry]),
 			worker(HistoryBook, []),
+			worker(EventManager, []),
 			supervisor(ClientSupervizor, [])
 		]
 
