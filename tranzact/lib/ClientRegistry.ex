@@ -29,7 +29,7 @@ defmodule ClientRegistry do
 		if Map.has_key?(all, cust) do
 			{:noreply, {all, references}}
 		else
-			{:ok, pid} = ClientSupervizor.new_client()
+			{:ok, pid} = Client.Supervizor.new_client()
 			ref = Process.monitor(pid)
 			{:noreply, {Map.put(all, cust, pid), Map.put(references, ref, cust)}}
 		end

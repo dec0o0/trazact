@@ -1,7 +1,7 @@
-defmodule ClientSupervizor do
+defmodule Client.Supervizor do
 	use Supervisor
 
-	@name ClientSupervizor
+	@name Client.Supervizor
 
 	def start_link do
 		Supervisor.start_link(__MODULE__, :ok, name: @name)
