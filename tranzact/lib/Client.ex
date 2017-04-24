@@ -22,7 +22,7 @@ defmodule Client do
 			true -> send(HistoryBook.getpid(), {:credit, self(), client, 0})	
 		end
 		
-		Agent.update(client, fn current when current >= 0 -> current - value end)
+		Agent.update(client, fn current when current >= value -> current - value end)
 		receive do
 			:ok -> 
 				IO.puts "Credit the account with #{value} has completed."

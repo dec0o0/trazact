@@ -1,15 +1,17 @@
 defmodule GlobalSupervizor do
 	use Supervisor
 
+	@name GlobalSupervizor
+
 	def start_link do
-		Supervisor.start_link(__MODULE__, :ok)
+		Supervisor.start_link(__MODULE__, :ok, name: @name)
 	end
 
 	def init(:ok) do
 		children = [
-			worker(ClientRegistry, [ClientRegistry]),
+			worker(ClientRegistry, [:registry]),
 			worker(HistoryBook, []),
-			supervisor(Client.Supervizor, [])
+			supervisor(ClientSupervizor, [])
 		]
 
 		supervise(children, strategy: :one_for_one)
