@@ -1,6 +1,6 @@
 # Tranzact
 
-**TODO: Add description**
+Sistem bancar de tranzactionare folosind modelul de programare pe actori.
 
 ## Installation
 
